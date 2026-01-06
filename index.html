@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МатемаТест - Образовательная платформа</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Главная страница с выбором теста -->
+    <div id="home-screen" class="screen active">
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <path d="M16 2L4 8V14C4 22 16 30 16 30C16 30 28 22 28 14V8L16 2Z" fill="currentColor"/>
+                        <text x="16" y="20" text-anchor="middle" fill="white" font-size="14" font-weight="bold">π</text>
+                    </svg>
+                    <h1>МатемаТест</h1>
+                </div>
+                <p class="tagline">Проверьте свои знания математики</p>
+            </div>
+        </header>
+
+        <main class="container">
+            <section class="welcome">
+                <h2>Выберите тест для прохождения</h2>
+                <p>Каждый тест содержит 10 вопросов с ограниченным временем</p>
+            </section>
+
+            <div class="tests-grid" id="tests-list">
+                <!-- Тесты будут добавлены через JavaScript -->
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 МатемаТест. Образовательная платформа</p>
+        </footer>
+    </div>
+
+    <!-- Экран прохождения теста -->
+    <div id="test-screen" class="screen">
+        <div class="test-header">
+            <div class="container">
+                <button id="back-btn" class="back-btn">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Назад
+                </button>
+                <h2 id="test-title" class="test-title"></h2>
+                <div class="timer" id="timer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <path d="M10 5V10L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span id="timer-text">15:00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container test-container">
+            <div class="progress-section">
+                <div class="progress-info">
+                    <span>Вопрос <span id="current-question">1</span> из <span id="total-questions">10</span></span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <h3 id="question-text" class="question-text"></h3>
+                <div id="answers-list" class="answers-list">
+                    <!-- Варианты ответов будут добавлены через JavaScript -->
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button id="prev-btn" class="btn btn-secondary" disabled>Предыдущий</button>
+                <button id="next-btn" class="btn btn-primary">Следующий</button>
+                <button id="finish-btn" class="btn btn-success" style="display: none;">Завершить тест</button>
+            </div>
+
+            <div class="questions-grid" id="questions-nav">
+                <!-- Навигация по вопросам будет добавлена через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Экран результатов -->
+    <div id="results-screen" class="screen">
+        <div class="container results-container">
+            <div class="results-card">
+                <div class="results-icon" id="results-icon">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                        <circle cx="40" cy="40" r="35" stroke="currentColor" stroke-width="4"/>
+                        <path d="M25 40L35 50L55 30" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2>Тест завершен!</h2>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="score-text" class="score-text">0</span>
+                        <span class="score-label">из <span id="max-score">100</span></span>
+                    </div>
+                </div>
+
+                <div class="results-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon correct">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="correct-count">0</span>
+                            <span class="stat-label">Правильных</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon incorrect">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="incorrect-count">0</span>
+                            <span class="stat-label">Неправильных</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon time">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 7V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="time-spent">00:00</span>
+                            <span class="stat-label">Затрачено времени</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-details">
+                    <h3>Детальный разбор</h3>
+                    <div id="answers-review" class="answers-review">
+                        <!-- Разбор ответов будет добавлен через JavaScript -->
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button id="retry-btn" class="btn btn-primary">Пройти еще раз</button>
+                    <button id="home-btn" class="btn btn-secondary">На главную</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
